@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../assets/css/App.css';
 import { Table, TableRow, TableCell, TableBody, TableHead, CardContent, Card, Grid} from '@material-ui/core';
-import { Creators as ReduxActions } from "../redux/reducers";
+import { Creators as ItemActions } from "../redux/reducers/Items";
 import {connect} from "react-redux";
 import {TextField} from "@material-ui/core/es/index";
 import { withStyles } from '@material-ui/core/styles';
@@ -47,7 +47,7 @@ class ShoppingList extends Component {
                                         margin="normal"
                                         variant="outlined"/>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell numeric>
                                         <TextField
                                             id="outlined-uncontrolled"
                                             label="quantity"
@@ -79,15 +79,15 @@ class ShoppingList extends Component {
 
 const mapStateToProps = state => {
     return {
-        items: state.reducer.items
+        items: state.Items.items
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onTableLoad: () =>
-            dispatch(ReduxActions.get_items_request())
-        onTableAdd: () => dispatch(ReduxActions.create_items_request())
+            dispatch(ItemActions.get_items_request()),
+        onTableAdd: () => dispatch(ItemActions.create_items_request())
     }
 };
 

@@ -8,9 +8,9 @@ import {
     actions
 } from 'react-redux-form';
 import {
-    Types as ReduxTypes,
-    Creators as Actions
-} from './reducers/index';
+    Types as ItemTypes,
+    Creators as ItemActions
+} from './reducers/Items';
 import createAPI from './api';
 
 // Construct API
@@ -21,16 +21,16 @@ function * getItems(api, action){
         let response = yield call(api.getItems);
         if(response && response.ok){
             console.log(response.data);
-            yield put(Actions.get_items_success({'items': response.data}));
+            yield put(ItemActions.get_items_success({'items': response.data}));
         }
     } catch (e) {
-        yield put(Actions.get_items_failure(e.toString()));
+        yield put(ItemActions.get_items_failure(e.toString()));
     }
 }
 
 /* ------------- Connect Types To Sagas ------------- */
 export default function * root () {
     yield [
-        takeEvery(ReduxTypes.GET_ITEMS_REQUEST, getItems, api),
+        takeEvery(ItemTypes.GET_ITEMS_REQUEST, getItems, api),
     ];
 }

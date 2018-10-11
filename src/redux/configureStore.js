@@ -5,7 +5,8 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
-import reducer , { Creators as ReduxActions} from './reducers/index';
+import reducer from './reducers/index';
+import { Creators as ItemActions } from "./reducers/Items";
 import saga from './sagas';
 
 // Saga middleware
@@ -13,7 +14,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 // Add middleware enhancers
 const composeEnhancers = composeWithDevTools({
-    actionCreators: ReduxActions
+    actionCreators: ItemActions
 });
 
 export default function configureStore () {
