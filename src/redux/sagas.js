@@ -14,7 +14,7 @@ import {
 import createAPI from './api';
 
 // Construct API
-const api = createAPI('/groceries/api/');
+const api = createAPI('api/');
 
 function * getItems(api, action){
     try{

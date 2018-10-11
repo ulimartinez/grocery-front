@@ -19,9 +19,7 @@ const composeEnhancers = composeWithDevTools({
 export default function configureStore () {
     // Build Redux Store
     const store = createStore(
-        combineReducers({
-            reducer
-        }),
+        reducer,
         composeEnhancers(
             // Apply saga middleware
             applyMiddleware(sagaMiddleware)

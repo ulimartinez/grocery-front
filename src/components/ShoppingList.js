@@ -87,6 +87,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onTableLoad: () =>
             dispatch(ReduxActions.get_items_request())
+        onTableAdd: () => dispatch(ReduxActions.create_items_request())
     }
 };
 
