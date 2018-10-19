@@ -9,9 +9,11 @@ const createAPI = (baseURL) => {
     });
     const getItems = () =>
         api.get('/shopping');
+    const createItem = data => api.post('/shopping', data);
     return {
-        getItems
-    }
+        getItems,
+        createItem
+    };
 };
 
 export default createAPI;

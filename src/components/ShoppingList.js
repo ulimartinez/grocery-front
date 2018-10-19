@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import '../assets/css/App.css';
-import { Table, TableRow, TableCell, TableBody, TableHead, CardContent, Card, Grid} from '@material-ui/core';
+import { Table, TableRow, TableCell, TableBody, TableHead, CardContent, Card, Grid, TextField} from '@material-ui/core';
 import { Creators as ItemActions } from "../redux/reducers/Items";
 import {connect} from "react-redux";
-import {TextField} from "@material-ui/core/es/index";
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({

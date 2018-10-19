@@ -1,7 +1,8 @@
 import {
     call,
     put,
-    takeEvery
+    takeEvery,
+    takeLatest
 } from 'redux-saga/effects';
 import {
 // eslint-disable-next-line no-unused-vars
@@ -28,9 +29,22 @@ function * getItems(api, action){
     }
 }
 
+function * createItem(api, action){
+    try{
+        let { data } = action;
+        let response = yield call(api.createItem, data);
+        if(response && response.ok){
+            yield put(ItemActions.create_item_success({'items': response.data}));
+        }
+    } catch (e) {
+        yield put(ItemActions.get_items_failure(e.toString()));
+    }
+}
+
 /* ------------- Connect Types To Sagas ------------- */
 export default function * root () {
     yield [
-        takeEvery(ItemTypes.GET_ITEMS_REQUEST, getItems, api),
+        takeLatest(ItemTypes.GET_ITEMS_REQUEST, getItems, api),
+        takeEvery(ItemTypes.CREATE_ITEM_REQUEST, createItem, api)
     ];
 }
