@@ -1,5 +1,5 @@
 import { createActions, createReducer } from 'reduxsauce';
-import { request, success, failure } from "../handlers";
+import { request, success, failure } from "../handlers/Api";
 
 export const INITIAL_STATE = {
     items: [],

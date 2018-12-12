@@ -3,7 +3,10 @@ import '../assets/css/App.css';
 import { Table, TableRow, TableCell, TableBody, TableHead, CardContent, Card, Grid, TextField} from '@material-ui/core';
 import { Creators as ItemActions } from "../redux/reducers/Items";
 import {connect} from "react-redux";
+import {Formik} from 'formik';
 import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
 
 const styles = theme => ({
     textField: {
@@ -14,57 +17,81 @@ const styles = theme => ({
 
 class ShoppingList extends Component {
     render() {
-        const {items, classes} = this.props;
+        const {items, classes, onTableAdd} = this.props;
         return (
             <Grid>
                 <Card>
                     <CardContent>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Item</TableCell>
-                                    <TableCell numeric>Quantity</TableCell>
-                                    <TableCell>Unit</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {items.map(row => {
-                                    return (
-                                        <TableRow key={row.id}>
-                                            <TableCell>{row.item}</TableCell>
-                                            <TableCell numeric>{row.quantity}</TableCell>
-                                            <TableCell>{row.unit}</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                                <TableRow>
-                                    <TableCell>
-                                        <TextField
-                                        id="outlined-uncontrolled"
-                                        label="Item"
-                                        className={classes.textField}
-                                        margin="normal"
-                                        variant="outlined"/>
-                                    </TableCell>
-                                    <TableCell numeric>
-                                        <TextField
-                                            id="outlined-uncontrolled"
-                                            label="quantity"
-                                            className={classes.textField}
-                                            margin="normal"
-                                            variant="outlined"/>
-                                    </TableCell>
-                                    <TableCell>
-                                        <TextField
-                                            id="outlined-uncontrolled"
-                                            label="unit"
-                                            className={classes.textField}
-                                            margin="normal"
-                                            variant="outlined"/>
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
+                        <Formik
+                            initialValues={{item: '', unit: 'l', quantity: 0}}
+                            onSubmit={(values, actions) => {
+                                console.log(values);
+                                onTableAdd(values);
+                            }}
+                            render={(formikprops)=>(
+                                <form onSubmit={formikprops.handleSubmit}>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Item</TableCell>
+                                                <TableCell numeric>Quantity</TableCell>
+                                                <TableCell>Unit</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {items.map(row => {
+                                                return (
+                                                    <TableRow key={row.id}>
+                                                        <TableCell>{row.item}</TableCell>
+                                                        <TableCell numeric>{row.quantity}</TableCell>
+                                                        <TableCell>{row.unit}</TableCell>
+                                                    </TableRow>
+                                                );
+                                            })}
+                                            <TableRow>
+                                                <TableCell>
+                                                    <TextField
+                                                        id="item"
+                                                        label="Item"
+                                                        className={classes.textField}
+                                                        onChange={formikprops.handleChange}
+                                                        onBlur={formikprops.handleBlur}
+                                                        margin="normal"
+                                                        value={formikprops.values.item}
+                                                        variant="outlined"/>
+                                                </TableCell>
+                                                <TableCell numeric>
+                                                    <TextField
+                                                        id="quantity"
+                                                        label="quantity"
+                                                        onChange={formikprops.handleChange}
+                                                        onBlur={formikprops.handleBlur}
+                                                        className={classes.textField}
+                                                        margin="normal"
+                                                        value={formikprops.values.quantity}
+                                                        variant="outlined"/>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <TextField
+                                                        id="unit"
+                                                        name={"unit"}
+                                                        label="unit"
+                                                        className={classes.textField}
+                                                        margin="normal"
+                                                        onChange={formikprops.handleChange}
+                                                        onBlur={formikprops.handleBlur}
+                                                        value={formikprops.values.unit}
+                                                        variant="outlined"/>
+                                                    <IconButton type={"submit"}>
+                                                        <AddIcon/>
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </form>
+                            )}
+                        />
                     </CardContent>
                 </Card>
             </Grid>
@@ -86,7 +113,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onTableLoad: () =>
             dispatch(ItemActions.get_items_request()),
-        onTableAdd: () => dispatch(ItemActions.create_items_request())
+        onTableAdd: (data) => dispatch(ItemActions.create_item_request(data))
     }
 };
 

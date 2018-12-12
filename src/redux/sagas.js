@@ -5,17 +5,13 @@ import {
     takeLatest
 } from 'redux-saga/effects';
 import {
-// eslint-disable-next-line no-unused-vars
-    actions
-} from 'react-redux-form';
-import {
     Types as ItemTypes,
     Creators as ItemActions
 } from './reducers/Items';
 import createAPI from './api';
 
 // Construct API
-const api = createAPI('api/');
+const api = createAPI('http://192.168.1.88/groceries/api/');
 
 function * getItems(api, action){
     try{

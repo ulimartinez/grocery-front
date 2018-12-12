@@ -9,7 +9,7 @@ const createAPI = (baseURL) => {
     });
     const getItems = () =>
         api.get('/shopping');
-    const createItem = data => api.post('/shopping', data);
+    const createItem = data => api.post('/shopping', data, {headers: {'content-type': 'application/json'}});
     return {
         getItems,
         createItem
